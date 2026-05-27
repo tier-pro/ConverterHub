@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { ToolLayout } from '@/components/ui/ToolLayout';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -13,7 +13,27 @@ export default function BackgroundRemoverClient() {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState('');
+  const [libReady, setLibReady] = useState(false);
+  const [libLoading, setLibLoading] = useState(false);
   const [copied, copy] = useCopyToClipboard();
+  const libRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || libRef.current) return;
+    setLibLoading(true);
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/dist/index.umd.js';
+    script.onload = () => {
+      libRef.current = (window as any).imglyBackgroundRemoval;
+      setLibReady(true);
+      setLibLoading(false);
+    };
+    script.onerror = () => {
+      setError('Failed to load background removal library.');
+      setLibLoading(false);
+    };
+    document.head.appendChild(script);
+  }, []);
 
   const handleFile = useCallback((f: File) => {
     if (!f.type.startsWith('image/')) { setError('Please upload an image file.'); return; }
@@ -31,15 +51,12 @@ export default function BackgroundRemoverClient() {
   }, [handleFile]);
 
   const removeBg = useCallback(async () => {
-    if (!file) return;
+    if (!file || !libRef.current) return;
     setLoading(true);
     setError('');
     setProgress(10);
     try {
-      // @ts-expect-error - CDN import with webpackIgnore
-      const { removeBackground } = await import(/* webpackIgnore: true */ 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm');
-      setProgress(30);
-      const blob = await removeBackground(file, { progress: (p: number) => setProgress(30 + p * 60) });
+      const blob = await libRef.current.removeBackground(file, { progress: (p: number) => setProgress(30 + p * 60) });
       setProgress(95);
       const url = URL.createObjectURL(blob);
       setResultUrl(url);
@@ -60,8 +77,8 @@ export default function BackgroundRemoverClient() {
   };
 
   const faq = [
-    { question: 'How does the background remover work?', answer: 'It uses a neural network running entirely in your browser via WebAssembly. No image data is ever sent to any server — processing is 100% private and local.' },
-    { question: 'What image formats are supported?', answer: 'JPEG, PNG, WebP, and BMP images are supported. The result is always PNG with a transparent background.' },
+    { question: 'How does the background remover work?', answer: 'It uses a neural network running entirely in your browser via WebAssembly. No image data is ever sent to any server.' },
+    { question: 'What image formats are supported?', answer: 'JPEG, PNG, WebP, and BMP. The result is always PNG with transparency.' },
     { question: 'Does it work on mobile?', answer: 'Yes, but on slower devices the initial model download (~8MB) and processing may take longer.' },
   ];
 
@@ -72,13 +89,13 @@ export default function BackgroundRemoverClient() {
   ];
 
   return (
-    <ToolLayout title="Background Remover" description="Remove image backgrounds instantly using AI — 100% free, private, and runs entirely in your browser." faq={faq} relatedTools={relatedTools}>
+    <ToolLayout title="Background Remover" description="Remove image backgrounds instantly using AI - 100% free, private, and runs entirely in your browser." faq={faq} relatedTools={relatedTools}>
       <div className="space-y-6">
         {!previewUrl ? (
           <div onDrop={handleDrop} onDragOver={(e) => e.preventDefault()} className="border-2 border-dashed border-border rounded-2xl p-12 text-center hover:border-primary/50 transition-colors cursor-pointer" onClick={() => document.getElementById('bg-file-input')?.click()}>
             <Upload className="w-12 h-12 mx-auto text-text-secondary mb-4" />
             <p className="text-text-primary font-medium">Drop an image here or click to browse</p>
-            <p className="text-text-secondary text-sm mt-1">JPEG, PNG, WebP — Max 10MB</p>
+            <p className="text-text-secondary text-sm mt-1">JPEG, PNG, WebP - Max 10MB</p>
             <input id="bg-file-input" type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
           </div>
         ) : (
@@ -107,9 +124,13 @@ export default function BackgroundRemoverClient() {
           </div>
         )}
 
+        {libLoading && (
+          <div className="flex items-center gap-2 text-sm text-text-secondary"><Loader2 className="w-4 h-4 animate-spin" />Loading AI library...</div>
+        )}
+
         <div className="flex flex-wrap gap-3">
           {previewUrl && !resultUrl && !loading && (
-            <Button onClick={removeBg}><Wand2 className="w-4 h-4" /> Remove Background</Button>
+            <Button onClick={removeBg} disabled={!libReady}><Wand2 className="w-4 h-4" /> Remove Background</Button>
           )}
           {previewUrl && <Button variant="secondary" onClick={() => { setPreviewUrl(''); setResultUrl(''); setFile(null); setProgress(0); }}>Choose Another</Button>}
           {resultUrl && <Button onClick={handleDownload}><Download className="w-4 h-4" /> Download PNG</Button>}
