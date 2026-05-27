@@ -37,7 +37,7 @@ export default function BackgroundRemoverClient() {
     setProgress(10);
     try {
       // @ts-expect-error - CDN import with webpackIgnore
-      const { removeBackground } = await import(/* webpackIgnore: true */ 'https://esm.sh/@imgly/background-removal@1.7.0');
+      const { removeBackground } = await import(/* webpackIgnore: true */ 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm');
       setProgress(30);
       const blob = await removeBackground(file, { progress: (p: number) => setProgress(30 + p * 60) });
       setProgress(95);
@@ -45,7 +45,7 @@ export default function BackgroundRemoverClient() {
       setResultUrl(url);
       setProgress(100);
     } catch (e) {
-      setError('Error: ' + (e instanceof Error ? e.message : 'Unknown'));
+      setError('Failed to remove background. Please try again.');
       console.error('Background removal error:', e);
     }
     setLoading(false);
