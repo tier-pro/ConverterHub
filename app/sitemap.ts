@@ -9,7 +9,7 @@ const highTraffic = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = 'https://converterhub.vercel.app';
+  const base = 'https://converter-hub-nine.vercel.app';
 
   const toolUrls = toolCategories.flatMap(cat =>
     cat.tools.map(tool => ({
