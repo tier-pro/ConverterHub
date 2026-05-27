@@ -46,8 +46,9 @@ export default function BackgroundRemoverClient() {
       const url = URL.createObjectURL(blob);
       setResultUrl(url);
       setProgress(100);
-    } catch {
-      setError('Failed to remove background. The model may still be downloading. Try again.');
+    } catch (e) {
+      setError('Failed to remove background. Error: ' + (e instanceof Error ? e.message : 'Unknown error'));
+      console.error('Background removal error:', e);
     }
     setLoading(false);
   }, [file]);
