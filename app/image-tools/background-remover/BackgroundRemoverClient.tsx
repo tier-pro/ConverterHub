@@ -37,7 +37,7 @@ export default function BackgroundRemoverClient() {
     setProgress(10);
     try {
       // @ts-expect-error - CDN import with webpackIgnore
-      const { removeBackground } = await import(/* webpackIgnore: true */ 'https://unpkg.com/@imgly/background-removal@1.7.0/dist/index.mjs');
+      const { removeBackground } = await import(/* webpackIgnore: true */ 'https://esm.sh/@imgly/background-removal@1.7.0?bundle');
       setProgress(30);
       const blob = await removeBackground(file, { progress: (p: number) => setProgress(30 + p * 60) });
       setProgress(95);
