@@ -39,7 +39,7 @@ export default function BackgroundRemoverClient() {
       // @ts-expect-error - CDN import with webpackIgnore
       const lib = await import(/* webpackIgnore: true */ 'https://esm.sh/@imgly/background-removal@1.7.0?bundle');
       setProgress(15);
-      const blob = await lib.removeBackground(file, { progress: (p: number) => setProgress(Math.min(15 + Math.round(p * 80), 98)) });
+      const blob = await lib.removeBackground(file, { progress: (p: number) => { const v = Math.min(15 + Math.round(Math.max(0, Math.min(+p || 0, 1)) * 80), 98); setProgress(v); } });
       setProgress(95);
       const url = URL.createObjectURL(blob);
       setResultUrl(url);
@@ -102,8 +102,9 @@ export default function BackgroundRemoverClient() {
 
         {loading && (
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-sm text-text-secondary"><Loader2 className="w-4 h-4 animate-spin" />Processing... {Math.round(progress)}%</div>
-            <div className="w-full bg-border rounded-full h-2"><div className="bg-primary h-2 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} /></div>
+            <div className="flex items-center gap-2 text-sm text-text-secondary"><Loader2 className="w-4 h-4 animate-spin" />{progress < 15 ? 'Downloading AI model...' : 'Processing...'} {isNaN(progress) ? 0 : Math.round(progress)}%</div>
+            <div className="w-full bg-border rounded-full h-2"><div className="bg-primary h-2 rounded-full transition-all duration-300" style={{ width: `${isNaN(progress) ? 0 : Math.round(progress)}%` }} /></div>
+            <p className="text-xs text-text-secondary">AI model processing may take 5-15 seconds on first use. Page may appear frozen - this is normal.</p>
           </div>
         )}
 
