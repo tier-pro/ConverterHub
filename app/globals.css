@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-text-primary font-sans antialiased; }
+  ::selection { background-color: var(--primary); color: white; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  :root {
+    --primary: #0B7B83;
+    --primary-hover: #096269;
+    --primary-light: #E8F6F7;
+    --accent: #D97706;
+    --background: #F8F6F3;
+    --surface: #FFFFFF;
+    --surface-secondary: #F3F1EE;
+    --border: #E2DDD7;
+    --text-primary: #1C1917;
+    --text-secondary: #78716C;
+    --error: #DC2626;
+    --warning: #D97706;
+    --success: #059669;
+  }
+
+  .dark {
+    --primary: #5EEAD4;
+    --primary-hover: #2DD4BF;
+    --primary-light: #134E4A;
+    --accent: #FCD34D;
+    --background: #1C1917;
+    --surface: #292524;
+    --surface-secondary: #1C1917;
+    --border: #44403C;
+    --text-primary: #F5F5F4;
+    --text-secondary: #A8A29E;
+    --error: #FCA5A5;
+    --warning: #FCD34D;
+    --success: #6EE7B7;
+  }
+}
+
+@layer utilities {
+  .bg-background { background-color: var(--background); }
+  .bg-surface { background-color: var(--surface); }
+  .bg-surface-secondary { background-color: var(--surface-secondary); }
+  .bg-primary-light { background-color: var(--primary-light); }
+  .text-text-primary { color: var(--text-primary); }
+  .text-text-secondary { color: var(--text-secondary); }
+  .border-border { border-color: var(--border); }
+  .text-primary { color: var(--primary); }
+  .bg-primary { background-color: var(--primary); }
+  .bg-primary-hover { background-color: var(--primary-hover); }
+  .bg-accent { background-color: var(--accent); }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white transition-all duration-150 hover:brightness-90 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-surface px-4 py-2.5 text-sm font-medium text-text-primary transition-all duration-150 hover:bg-surface-secondary active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-text-secondary transition-all duration-150 hover:bg-surface-secondary hover:text-text-primary active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50;
+  }
+  .card {
+    @apply rounded-xl bg-surface p-6 shadow-sm transition-all duration-200 hover:shadow-md;
+  }
+  .card-hover {
+    @apply rounded-xl bg-surface p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(11,123,131,0.1)];
+  }
+  .input-field {
+    @apply w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-sm text-text-primary placeholder:text-text-secondary transition-colors duration-150 focus:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20;
+  }
+  .select-field {
+    @apply w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-sm text-text-primary transition-colors duration-150 appearance-none focus:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20;
+  }
+  .label-text {
+    @apply text-sm font-medium text-text-primary;
+  }
+  .skeleton {
+    @apply rounded-md bg-surface-secondary animate-shimmer bg-[length:400%_100%];
+  }
+}

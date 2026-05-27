@@ -1,0 +1,42 @@
+{
+  "name": "converterhub",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@imgly/background-removal": "^1.7.0",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/crypto-js": "^4.2.2",
+    "@types/qrcode": "^1.5.6",
+    "canvas-confetti": "^1.9.4",
+    "crypto-js": "^4.2.0",
+    "date-fns": "^3.6.0",
+    "docx": "^9.7.0",
+    "file-saver": "^2.0.5",
+    "gif.js": "^0.2.0",
+    "lucide-react": "^0.400.0",
+    "next": "^14.2.35",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^5.7.284",
+    "qrcode": "^1.5.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-dropzone": "^14.4.1",
+    "zustand": "^4.5.7"
+  },
+  "devDependencies": {
+    "@types/gif.js": "^0.2.5",
+    "@types/node": "^20.19.41",
+    "@types/react": "^18.3.29",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3"
+  }
+}
