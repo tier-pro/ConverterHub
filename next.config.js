@@ -17,7 +17,7 @@ const nextConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
-          { key: 'Content-Security-Policy', value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' fonts.googleapis.com; img-src 'self' data: blob:; font-src 'self' data: fonts.gstatic.com; connect-src 'self' api.frankfurter.dev cdn.jsdelivr.net; worker-src 'self' blob:; media-src 'self'; frame-src 'none'; object-src 'none'" },
+          { key: 'Content-Security-Policy', value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' cdn.jsdelivr.net static.img.ly; style-src 'self' 'unsafe-inline' fonts.googleapis.com; img-src 'self' data: blob:; font-src 'self' data: fonts.gstatic.com; connect-src 'self' api.frankfurter.dev cdn.jsdelivr.net static.img.ly *.img.ly; worker-src 'self' blob:; media-src 'self'; frame-src 'none'; object-src 'none'" },
         ],
       },
     ];
