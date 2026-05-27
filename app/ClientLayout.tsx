@@ -13,7 +13,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     <>
       <Header onMenuToggle={() => setMobileMenu(!mobileMenu)} />
       <div className="flex">
-        <Sidebar />
+        <div className="hidden lg:block"><Sidebar /></div>
         {mobileMenu && (
           <div className="fixed inset-0 z-40 lg:hidden">
             <div className="absolute inset-0 bg-black/50" onClick={() => setMobileMenu(false)} />

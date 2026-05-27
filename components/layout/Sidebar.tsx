@@ -34,7 +34,7 @@ export function Sidebar() {
   }, [pathname]);
 
   return (
-    <aside className="w-60 shrink-0 border-r border-border bg-surface h-[calc(100vh-4rem)] overflow-y-auto sticky top-16 hidden lg:block">
+    <aside className="w-60 shrink-0 border-r border-border bg-surface h-[calc(100vh-4rem)] overflow-y-auto sticky top-16">
       <nav className="p-3 space-y-1">
         {toolCategories.map((cat) => (
           <div key={cat.id}>
