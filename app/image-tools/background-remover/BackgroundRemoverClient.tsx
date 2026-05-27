@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 import { ToolLayout } from '@/components/ui/ToolLayout';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -13,27 +13,7 @@ export default function BackgroundRemoverClient() {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState('');
-  const [libReady, setLibReady] = useState(false);
-  const [libLoading, setLibLoading] = useState(false);
   const [copied, copy] = useCopyToClipboard();
-  const libRef = useRef<any>(null);
-
-  useEffect(() => {
-    if (typeof window === 'undefined' || libRef.current) return;
-    setLibLoading(true);
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/dist/index.umd.js';
-    script.onload = () => {
-      libRef.current = (window as any).imglyBackgroundRemoval;
-      setLibReady(true);
-      setLibLoading(false);
-    };
-    script.onerror = () => {
-      setError('Failed to load background removal library.');
-      setLibLoading(false);
-    };
-    document.head.appendChild(script);
-  }, []);
 
   const handleFile = useCallback((f: File) => {
     if (!f.type.startsWith('image/')) { setError('Please upload an image file.'); return; }
@@ -51,18 +31,21 @@ export default function BackgroundRemoverClient() {
   }, [handleFile]);
 
   const removeBg = useCallback(async () => {
-    if (!file || !libRef.current) return;
+    if (!file) return;
     setLoading(true);
     setError('');
     setProgress(10);
     try {
-      const blob = await libRef.current.removeBackground(file, { progress: (p: number) => setProgress(30 + p * 60) });
+      // @ts-expect-error - CDN import with webpackIgnore
+      const { removeBackground } = await import(/* webpackIgnore: true */ 'https://unpkg.com/@imgly/background-removal@1.7.0/dist/index.mjs');
+      setProgress(30);
+      const blob = await removeBackground(file, { progress: (p: number) => setProgress(30 + p * 60) });
       setProgress(95);
       const url = URL.createObjectURL(blob);
       setResultUrl(url);
       setProgress(100);
     } catch (e) {
-      setError('Failed to remove background. Please try again.');
+      setError('Failed to remove background. Error: ' + (e instanceof Error ? e.message : 'Unknown'));
       console.error('Background removal error:', e);
     }
     setLoading(false);
@@ -124,13 +107,9 @@ export default function BackgroundRemoverClient() {
           </div>
         )}
 
-        {libLoading && (
-          <div className="flex items-center gap-2 text-sm text-text-secondary"><Loader2 className="w-4 h-4 animate-spin" />Loading AI library...</div>
-        )}
-
         <div className="flex flex-wrap gap-3">
           {previewUrl && !resultUrl && !loading && (
-            <Button onClick={removeBg} disabled={!libReady}><Wand2 className="w-4 h-4" /> Remove Background</Button>
+            <Button onClick={removeBg}><Wand2 className="w-4 h-4" /> Remove Background</Button>
           )}
           {previewUrl && <Button variant="secondary" onClick={() => { setPreviewUrl(''); setResultUrl(''); setFile(null); setProgress(0); }}>Choose Another</Button>}
           {resultUrl && <Button onClick={handleDownload}><Download className="w-4 h-4" /> Download PNG</Button>}
