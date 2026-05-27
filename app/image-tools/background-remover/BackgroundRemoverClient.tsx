@@ -45,7 +45,7 @@ export default function BackgroundRemoverClient() {
       setResultUrl(url);
       setProgress(100);
     } catch (e) {
-      setError('Failed to remove background. Please try again.');
+      setError('Error: ' + (e instanceof Error ? e.message : 'Unknown'));
       console.error('Background removal error:', e);
     }
     setLoading(false);
