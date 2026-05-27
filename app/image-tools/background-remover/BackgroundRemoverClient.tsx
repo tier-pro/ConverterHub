@@ -6,8 +6,6 @@ import { Button } from '@/components/ui/Button';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { Upload, Download, Loader2, Wand2, AlertCircle, CheckCircle } from 'lucide-react';
 
-type RemoveBgFn = (image: Blob | File, opts?: { progress?: (p: number) => void }) => Promise<Blob>;
-
 export default function BackgroundRemoverClient() {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
@@ -38,16 +36,16 @@ export default function BackgroundRemoverClient() {
     setError('');
     setProgress(10);
     try {
-      // @ts-expect-error - CDN import, types available from local package
-      const { removeBackground }: { removeBackground: RemoveBgFn } = await import(/* webpackIgnore: true */ 'https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm');
+      // @ts-expect-error - CDN import with webpackIgnore
+      const { removeBackground } = await import(/* webpackIgnore: true */ 'https://esm.sh/@imgly/background-removal@1.7.0');
       setProgress(30);
-      const blob = await removeBackground(file, { progress: (p) => setProgress(30 + p * 60) });
+      const blob = await removeBackground(file, { progress: (p: number) => setProgress(30 + p * 60) });
       setProgress(95);
       const url = URL.createObjectURL(blob);
       setResultUrl(url);
       setProgress(100);
     } catch (e) {
-      setError('Failed to remove background. Error: ' + (e instanceof Error ? e.message : 'Unknown error'));
+      setError('Failed to remove background. Please try again.');
       console.error('Background removal error:', e);
     }
     setLoading(false);
