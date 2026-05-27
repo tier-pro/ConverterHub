@@ -34,12 +34,12 @@ export default function BackgroundRemoverClient() {
     if (!file) return;
     setLoading(true);
     setError('');
-    setProgress(10);
     try {
+      setProgress(10);
       // @ts-expect-error - CDN import with webpackIgnore
-      const { removeBackground } = await import(/* webpackIgnore: true */ 'https://esm.sh/@imgly/background-removal@1.7.0?bundle');
-      setProgress(30);
-      const blob = await removeBackground(file, { progress: (p: number) => setProgress(30 + p * 60) });
+      const lib = await import(/* webpackIgnore: true */ 'https://esm.sh/@imgly/background-removal@1.7.0?bundle');
+      setProgress(15);
+      const blob = await lib.removeBackground(file, { progress: (p: number) => setProgress(Math.min(15 + Math.round(p * 80), 98)) });
       setProgress(95);
       const url = URL.createObjectURL(blob);
       setResultUrl(url);
