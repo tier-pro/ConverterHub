@@ -55,7 +55,8 @@ export default function UnixTimestampPage() {
 
   const faq = [
     { question: 'What is a Unix timestamp?', answer: 'A Unix timestamp is the number of seconds (or milliseconds) that have elapsed since January 1, 1970 (UTC).' },
-    { question: 'Why use milliseconds?', answer: 'Some systems use milliseconds for higher precision timestamps. JavaScript Date.now() returns milliseconds.' },
+    { question: 'Why use milliseconds?', answer: 'Some systems use 13-digit timestamps in milliseconds for higher precision. JavaScript Date.now() returns milliseconds. Toggle the checkbox to convert 13-digit timestamps.' },
+    { question: 'How do I convert a date to Unix timestamp?', answer: 'Use the "Date to Timestamp" section below. Select any date and time to instantly get both 10-digit (seconds) and 13-digit (milliseconds) Unix timestamp values.' },
   ];
 
   const relatedTools = [
@@ -65,7 +66,7 @@ export default function UnixTimestampPage() {
   ];
 
   return (
-    <ToolLayout title="Unix Timestamp Converter" description="Convert between Unix timestamps and human-readable dates with relative time display." faq={faq} relatedTools={relatedTools}>
+    <ToolLayout title="Unix Timestamp Converter" description="Convert date to Unix timestamp and back. Supports 10-digit seconds and 13-digit millisecond timestamps with live preview." faq={faq} relatedTools={relatedTools}>
       <div className="space-y-6">
         <Card hover={false} className="p-4">
           <h3 className="text-sm font-semibold text-text-primary mb-2">Current Timestamp</h3>
