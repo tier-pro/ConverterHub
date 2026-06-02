@@ -40,8 +40,10 @@ export default function DateDifferencePage() {
   }, [startDate, endDate, excludeEnd]);
 
   const faq = [
-    { question: 'How is the date difference calculated?', answer: 'The difference is calculated by subtracting the start date from the end date using date-fns library for precise results.' },
-    { question: 'What are working days?', answer: 'Working days are Monday through Friday, excluding weekends (Saturday and Sunday).' },
+    { question: 'How is the date difference calculated?', answer: 'The difference is calculated by subtracting the start date from the end date using date-fns library for precise results in years, months, and days.' },
+    { question: 'What are working days?', answer: 'Working days are Monday through Friday, excluding weekends (Saturday and Sunday) and can be used for business date calculations.' },
+    { question: 'How many days between two dates?', answer: 'Enter your start and end date to instantly see the exact number of days between dates, along with weeks, months, and years.' },
+    { question: 'Is this an online date difference calculator?', answer: 'Yes, our free online date difference calculator works in your browser with no server uploads. Use it to calculate days between dates for planning, billing, or eligibility checks.' },
   ];
 
   const relatedTools = [
