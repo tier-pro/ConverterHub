@@ -62,6 +62,9 @@ export default function AgeCalculatorPage() {
   const faq = [
     { question: 'How is the exact age calculated?', answer: 'The exact age is calculated by comparing the date of birth to the current date using date-fns library functions for precise year, month, and day differences.' },
     { question: 'How accurate is the next birthday countdown?', answer: 'The countdown shows the exact number of days until your next birthday based on the current date.' },
+    { question: 'What is the age limit for UPSC exams?', answer: 'The UPSC civil services exam age limit is 21-32 years for general category, with relaxation for OBC (3 years), SC/ST (5 years), and PwD (10 years). Use our age calculator to check your eligibility.' },
+    { question: 'Can I calculate age on a specific date?', answer: 'Yes, enter any date of birth and the calculator shows exact age in years, months, days, weeks, hours, and minutes as of today.' },
+    { question: 'How does this age calculator help for India exams?', answer: 'Our age calculator by date of birth helps Indian students and job seekers check eligibility for government exams, school admissions, and age-verified applications.' },
   ];
 
   const relatedTools = [
@@ -71,7 +74,7 @@ export default function AgeCalculatorPage() {
   ];
 
   return (
-    <ToolLayout title="Age Calculator" description="Calculate your exact age in years, months, and days with additional details like zodiac sign and next birthday countdown." faq={faq} relatedTools={relatedTools}>
+    <ToolLayout title="Age Calculator" description="Calculate your exact age by year, month, and day with our free age calculator by date of birth. Check age today, UPSC age eligibility, India age calculator for exams, and more." faq={faq} relatedTools={relatedTools}>
       <div className="space-y-4">
         <Input label="Date of Birth" type="date" value={dob} onChange={(e) => setDob(e.target.value)} />
         <Button onClick={handleCalculate}>Calculate Age</Button>
