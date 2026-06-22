@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "node -e \"require('https').get('https://www.google.com/ping?sitemap=https://converter-hub-nine.vercel.app/sitemap.xml',r=>console.log('Google ping:',r.statusCode))\"",
     "start": "next start",
     "lint": "next lint"
   },
