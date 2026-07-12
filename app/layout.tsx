@@ -3,6 +3,7 @@ import './globals.css';
 import ClientLayout from './ClientLayout';
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
+import Script from 'next/script';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-inter' });
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-mono' });
@@ -38,9 +39,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
         <meta name="google-site-verification" content="YHiwzNkZ3x-7n0u1ARKKAFCVSRewgER98Ec_aYOwcrc" />
         <meta name="theme-color" content="#0B7B83" />
-        <!-- Google Tag Manager -->
-        <script dangerouslySetInnerHTML={{ __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M3BH8JP5');` }} />
-        <!-- End Google Tag Manager -->
+        <Script id="gtm" strategy="beforeInteractive" dangerouslySetInnerHTML={{
+          __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M3BH8JP5');`
+        }} />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var s=localStorage.getItem('converterhub-storage');if(s){var d=JSON.parse(s);if(d.state&&d.state.theme==='dark'){document.documentElement.classList.add('dark');}}else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.classList.add('dark');}}catch(e){}})()`,
@@ -65,9 +66,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-screen bg-background">
-        <!-- Google Tag Manager (noscript) -->
-        <noscript dangerouslySetInnerHTML={{ __html: '<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M3BH8JP5" height="0" width="0" style="display:none;visibility:hidden"></iframe>' }} />
-        <!-- End Google Tag Manager (noscript) -->
+        <noscript>
+          <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M3BH8JP5" height="0" width="0" style={{ display: 'none', visibility: 'hidden' }} />
+        </noscript>
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-primary focus:text-white">
           Skip to content
         </a>
