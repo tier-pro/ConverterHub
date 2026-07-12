@@ -27,6 +27,12 @@ export const metadata: Metadata = {
   },
   twitter: { card: 'summary_large_image', title: siteName, description: siteDescription },
   robots: { index: true, follow: true },
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.png', sizes: '32x32', type: 'image/png' },
+    ],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -35,8 +41,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
         <meta name="google-site-verification" content="YHiwzNkZ3x-7n0u1ARKKAFCVSRewgER98Ec_aYOwcrc" />
         <meta name="theme-color" content="#0B7B83" />
         <Script id="gtm" strategy="beforeInteractive" dangerouslySetInnerHTML={{
